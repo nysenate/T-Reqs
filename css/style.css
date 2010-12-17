@@ -1,0 +1,112 @@
+/*************************************************************************
+** Bronto T-Reqs E-mail Approval Interface
+** Purpose: Main stylesheet for all web pages.
+** Organization: New York State Senate
+** Author: Ken Zalewski
+** Last revision: 2009-11-21
+*************************************************************************/
+
+body {
+  margin: 0 0 0 0;
+  background-color: #E2DED5;
+  font-size: 14px;
+}
+
+#page_outer {
+  background: url(../images/nyss_bg.png) repeat-x;
+}
+
+#page {
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#header {
+  background: url(../images/nyss_header_bg.jpg) top left no-repeat;
+  height: 93px;
+}
+
+#logo {
+  margin-top: 17px;
+  border: 0;
+}
+
+#content {
+}
+
+#footer {
+  font-size: 9px;
+  border-top: 4px solid blue;
+}
+
+#message_preview {
+	float: right;
+	height: 500px;
+	width: 500px;
+	padding: 0;
+	margin-bottom: 20px;
+	border: solid green 5px;
+}
+
+#list_select {
+	float: left;
+	margin-right: 50px;
+}
+
+#segment_select {
+	float: left;
+}
+
+
+.warnbox {
+  background: yellow;
+  border: 3px solid green;
+  color: green;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 5 5 5 5;
+  width: 500px;
+}
+
+
+.errorbox {
+  background: pink;
+  border: 3px solid red;
+  color: red;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 5 5 5 5;
+  width: 500px;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.warning {
+  color: blue;
+  font-weight: bold;
+}
+
+.message {
+  border: 3px dotted blue;
+}
+
+.message_metadata {
+  background: #88cccc;
+}
+
+label.required {
+  font-weight: bold;
+}
+
+label.required:after {
+  content: " *";
+  color: red;
+}

@@ -1,0 +1,11 @@
+agency_username=signuplists
+agency_password=XXXXX
+agency_sitename=newyorksenateagency
+db_dsn=mysql:host=localhost;dbname=bronto
+db_user=brontoadmin
+db_pass=XXXXX
+ldap_host=webmail.senate.state.ny.us
+smtp_host=webmail.senate.state.ny.us
+smtp_port=587
+smtp_username=senateuser
+smtp_password=XXXXX
