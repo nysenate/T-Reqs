@@ -464,6 +464,13 @@ function get_all_contacts($binding)
 
 
 
+function get_all_contacts_no_fields($binding)
+{
+  return get_contacts_no_fields($binding, null);
+} // get_all_contacts_no_fields()
+
+
+
 function delete_contact($binding, $id)
 {
   $deleteObj['type'] = "contact";
@@ -472,6 +479,29 @@ function delete_contact($binding, $id)
   $res = normalize_result($res);
   return $res[0]->success ? true : false;
 } // delete_contact()
+
+
+
+function get_deliveries($binding, $filter)
+{
+  try {
+    $attr = array("status" => true, "recipients" => true);
+    $params = make_params($attr, $filter);
+    $result = $binding->readDeliveries($params);
+    return normalize_result($result);
+  }
+  catch (SoapFault $ex) {
+    print_exception($binding, $ex);
+    return null;
+  }
+} // get_deliveries()
+
+
+
+function get_all_deliveries($binding)
+{
+  return get_deliveries($binding, null);
+} // get_all_deliveries()
 
 
 
