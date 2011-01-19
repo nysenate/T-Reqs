@@ -1,5 +1,5 @@
 <?php
-require_once '../include/common.inc.php';
+require_once dirname(__FILE__).'/../include/common.inc.php';
 
 $prog = basename(__FILE__);
 
@@ -9,6 +9,7 @@ $disp_contacts = true;
 $disp_contact_fields = true;
 $disp_messages = true;
 $disp_deliveries = true;
+$max_accounts = 0;
 
 for ($i = 1; $i < $argc; $i++) {
   $opt = $argv[$i];
@@ -19,7 +20,8 @@ for ($i = 1; $i < $argc; $i++) {
     case '--no-contact-fields': $disp_contact_fields = false; break;
     case '--no-messages': $disp_messages = false; break;
     case '--no-deliveries': $disp_deliveries = false; break;
-    default: echo "Usage: $prog [--no-lists] [--no-fields] [--no-contacts] [--no-deliveries]\n"; exit(1);
+    case '--max-accounts': $max_accounts = $argv[++$i]; break;
+    default: echo "Usage: $prog [--no-lists] [--no-fields] [--no-contacts] [--no-contact-fields] [--no-messages] [--no-deliveries] [--max-accounts num]\n"; exit(1);
   }
 }
 
@@ -39,6 +41,7 @@ if ($accounts == null) {
 }
 
 echo "<accounts count=\"".count($accounts)."\">\n";
+$acct_num = 0;
 
 foreach ($accounts as $acct) {
   echo "<account id=\"".$acct->id."\" name=\"".$acct->name."\" currContactCount=\"".$acct->currContactCount."\" ".
@@ -75,11 +78,16 @@ foreach ($accounts as $acct) {
   }
   
   echo "</account>\n";
-  //break;
+
+  $acct_num++;
+  if ($max_accounts > 0 && $acct_num >= $max_accounts) {
+    break;
+  }
 }
 
 echo "</accounts>\n";
 echo "</bronto-data>\n";
+exit(0);
 
 
 
@@ -92,13 +100,10 @@ function display_lists($binding)
 
     foreach ($lists as $list) {
       echo "<list id=\"".$list->id."\" name=\"".$list->name."\" label=\"".$list->label."\" ".
-           "activeCount=\"".$list->activeCount."\" />\n";
+           "activeCount=\"".$list->activeCount."\"/>\n";
     }
       
     echo "</lists>\n";
-  }
-  else {
-    echo "<lists count=\"0\"/>\n";
   }
 } // display_lists()
 
@@ -114,13 +119,10 @@ function display_fields($binding)
     foreach ($fields as $field) {
       echo "<field id=\"".$field->id."\" name=\"".$field->name."\" label=\"".$field->label."\" ".
            "type=\"".$field->type."\" display=\"".$field->display."\" ".
-           "visibility=\"".$field->visibility."\" />\n";
+           "visibility=\"".$field->visibility."\"/>\n";
     }
       
     echo "</fields>\n";
-  }
-  else {
-    echo "<fields count=\"0\"/>\n";
   }
 } // display_fields()
 
@@ -152,9 +154,6 @@ function display_contacts($binding, $disp_fields)
           echo "</memberships>\n";
         }
       }
-      else {
-        echo "<memberships count=\"0\"/>\n";
-      }
 
       if (isset($contact->fields)) {
         $fields = make_array($contact->fields);
@@ -164,17 +163,11 @@ function display_contacts($binding, $disp_fields)
         }
         echo "</fieldvals>\n";
       }
-      else {
-        echo "<fieldvals count=\"0\"/>\n";
-      }
 
       echo "</contact>\n";
     }
 
     echo "</contacts>\n";
-  }
-  else {
-    echo "<contacts count=\"0\"/>\n";
   }
 } // display_contacts()
 
@@ -192,9 +185,6 @@ function display_messages($binding)
     }
 
     echo "</messages>\n";
-  }
-  else {
-    echo "<messages count=\"0\"/>\n";
   }
 } // display_messages()
 
@@ -217,17 +207,11 @@ function display_deliveries($binding)
         }
         echo "</recipients>\n";
       }
-      else {
-        echo "<recipients count=\"0\"/>\n";
-      }
 
       echo "</delivery>\n";
     }
 
     echo "</deliveries>\n";
-  }
-  else {
-    echo "<deliveries count=\"0\"/>\n";
   }
 } // display_deliveries()
 
