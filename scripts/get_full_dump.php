@@ -1,4 +1,15 @@
 <?php
+/*
+** get_full_dump.php - Generate an exhaustive export of data from the Senate's
+**                     Bronto account in XML format.
+**
+** Project: BluebirdCRM
+** Author: Ken Zalewski
+** Organization: New York State Senate
+** Date: 2010-05-18
+** Revised: 2011-01-19
+*/
+
 require_once dirname(__FILE__).'/../include/common.inc.php';
 
 $prog = basename(__FILE__);
@@ -141,7 +152,7 @@ function display_contacts($binding, $disp_fields)
     echo "<contacts count=\"".count($contacts)."\">\n";
       
     foreach ($contacts as $contact) {
-      echo "<contact id=\"".$contact->id."\" email=\"".$contact->email."\" status=\"".$contact->status."\" msgPref=\"".$contact->msgPref."\" ".
+      echo "<contact id=\"".$contact->id."\" email=\"".fix_value($contact->email)."\" status=\"".$contact->status."\" msgPref=\"".$contact->msgPref."\" ".
            "source=\"".$contact->source."\" customSource=\"".$contact->customSource."\" ".
            "created=\"".$contact->created."\" modified=\"".$contact->modified."\">\n";
       if (isset($contact->lists)) {
@@ -159,7 +170,7 @@ function display_contacts($binding, $disp_fields)
         $fields = make_array($contact->fields);
         echo "<fieldvals count=\"".count($fields)."\">\n";
         foreach ($fields as $field) {
-          echo "<fieldval id=\"".$field->fieldId."\">".$field->value."</fieldval>\n";
+          echo "<fieldval id=\"".$field->fieldId."\">".fix_value($field->value)."</fieldval>\n";
         }
         echo "</fieldvals>\n";
       }
@@ -214,5 +225,13 @@ function display_deliveries($binding)
     echo "</deliveries>\n";
   }
 } // display_deliveries()
+
+
+
+function fix_value($str)
+{
+  // Escape '&', '<', and '>', but not single or double quotes.
+  return htmlspecialchars($str, ENT_NOQUOTES);
+} // fix_value()
 
 ?>
